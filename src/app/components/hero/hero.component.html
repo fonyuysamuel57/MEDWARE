@@ -1,0 +1,69 @@
+<section id="hero" class="hero">
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="hero-banner-content">
+      <div class="hero-logo-area">
+        <app-logo size="medium" [showText]="true" />
+      </div>
+      <div class="hero-text">
+        <h1 class="hero-tagline">{{ ts.t('hero.tagline') }}</h1>
+        <p class="hero-subtitle">{{ ts.t('hero.subtitle') }}</p>
+      </div>
+    </div>
+
+    <!-- Quick Nav Buttons -->
+    <div class="quick-nav">
+      @for (btn of navButtons; track btn.target) {
+        <button class="quick-btn" (click)="scrollTo(btn.target)">
+          <span class="quick-btn-icon">{{ btn.icon }}</span>
+          <span class="quick-btn-label">{{ ts.t(btn.labelKey) }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Hero Story Section -->
+  <div class="hero-story-section">
+    <div class="story-grid">
+
+      <!-- Story Card -->
+      <article class="story-card">
+        <div class="story-card-header">
+          <span class="story-icon">📖</span>
+          <h2>{{ ts.t('hero.story.title') }}</h2>
+        </div>
+        <p>{{ ts.t('hero.story.body') }}</p>
+        <div class="story-stats">
+          <div class="stat">
+            <span class="stat-num">1000+</span>
+            <span class="stat-label">Lives impacted by information yearly</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">60%</span>
+            <span class="stat-label">Of deaths preventable with correct information</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">7+</span>
+            <span class="stat-label">Disease categories covered</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- About Us Card -->
+      <article class="about-card">
+        <div class="about-card-header">
+          <span class="about-icon">🏥</span>
+          <h2>{{ ts.t('hero.about.title') }}</h2>
+        </div>
+        <p>{{ ts.t('hero.about.body') }}</p>
+        <div class="about-badge">
+          <span class="badge-icon">⚕️</span>
+          <span>Information only — Always consult a doctor</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+</section>

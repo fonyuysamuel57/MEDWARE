@@ -1,0 +1,141 @@
+<section id="articles" class="section articles-section">
+  <div class="section-container">
+
+    <div class="section-header">
+      <span class="section-badge">📰</span>
+      <h2 class="section-title">{{ ts.t('articles.title') }}</h2>
+      <p class="section-subtitle">{{ ts.t('articles.subtitle') }}</p>
+    </div>
+
+    <!-- Admin Toolbar -->
+    <div class="admin-toolbar">
+      @if (!auth.isAdmin()) {
+        <button class="admin-btn" (click)="showLoginForm.set(!showLoginForm())">
+          🔒 {{ ts.t('articles.admin.login') }}
+        </button>
+      } @else {
+        <div class="admin-bar">
+          <span class="admin-badge">⚙️ Admin</span>
+          <button class="add-article-btn" (click)="showUploadForm.set(!showUploadForm())">
+            {{ ts.t('articles.addArticle') }}
+          </button>
+          <button class="logout-btn" (click)="auth.logout()">
+            {{ ts.t('articles.admin.logout') }}
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Login Form -->
+    @if (showLoginForm()) {
+      <div class="login-panel">
+        <h4>🔐 {{ ts.t('articles.admin.login') }}</h4>
+        <div class="login-row">
+          <input
+            type="password"
+            [placeholder]="ts.t('articles.admin.password')"
+            [value]="loginPassword()"
+            (input)="loginPassword.set($any($event.target).value)"
+            (keyup.enter)="tryLogin()"
+          />
+          <button class="login-submit-btn" (click)="tryLogin()">
+            {{ ts.t('articles.admin.loginBtn') }}
+          </button>
+        </div>
+        @if (loginError()) {
+          <p class="login-error">Incorrect password. Try again.</p>
+        }
+      </div>
+    }
+
+    <!-- Upload Form -->
+    @if (auth.isAdmin() && showUploadForm()) {
+      <div class="upload-form">
+        <h4>{{ ts.t('articles.upload.title') }}</h4>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>{{ ts.t('articles.upload.articleTitle') }}</label>
+            <input type="text" [(ngModel)]="newForm.title" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('articles.upload.author') }}</label>
+            <input type="text" [(ngModel)]="newForm.author" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('articles.upload.tags') }}</label>
+            <input type="text" [(ngModel)]="newForm.tags" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('articles.upload.image') }} (URL)</label>
+            <input type="text" [(ngModel)]="newForm.imageUrl" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('articles.upload.content') }}</label>
+            <textarea rows="10" [(ngModel)]="newForm.content"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="publish-btn" (click)="publishArticle()">
+            {{ ts.t('articles.upload.submit') }}
+          </button>
+          <button class="cancel-btn" (click)="cancelUpload()">
+            {{ ts.t('articles.upload.cancel') }}
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Articles List -->
+    @if (articles().length === 0) {
+      <p class="no-articles">{{ ts.t('articles.noArticles') }}</p>
+    } @else {
+      <div class="articles-list">
+        @for (a of articles(); track a.id) {
+          <article class="article-card">
+            @if (a.imageUrl) {
+              <div class="article-img-wrap">
+                <img [src]="a.imageUrl" [alt]="getTitle(a)" loading="lazy" />
+              </div>
+            }
+
+            <div class="article-body">
+              <div class="article-meta">
+                <div class="article-tags">
+                  @for (tag of a.tags; track tag) {
+                    <span class="tag">{{ tag }}</span>
+                  }
+                </div>
+                <span class="article-date">{{ formatDate(a.date) }}</span>
+              </div>
+
+              <h3 class="article-title">{{ getTitle(a) }}</h3>
+              <p class="article-byline">
+                {{ ts.t('articles.by') }} <strong>{{ a.author }}</strong>
+              </p>
+
+              <!-- Preview (collapsed) -->
+              @if (!isExpanded(a.id)) {
+                <p class="article-preview">
+                  {{ getContent(a).slice(0, 220) }}…
+                </p>
+                <button class="read-more-btn" (click)="toggleExpand(a.id)">
+                  {{ ts.t('articles.readMore') }} ↓
+                </button>
+              } @else {
+                <!-- Full content -->
+                <div
+                  class="article-full-content"
+                  [innerHTML]="'<p>' + renderContent(getContent(a)) + '</p>'"
+                ></div>
+                <button class="read-more-btn" (click)="toggleExpand(a.id)">
+                  ↑ Show less
+                </button>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    }
+
+  </div>
+</section>

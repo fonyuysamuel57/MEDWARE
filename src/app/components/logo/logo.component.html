@@ -1,0 +1,44 @@
+<div class="logo-wrapper" [class]="size">
+  <svg
+    [attr.width]="size === 'small' ? 40 : size === 'medium' ? 56 : 72"
+    [attr.height]="size === 'small' ? 40 : size === 'medium' ? 56 : 72"
+    viewBox="0 0 72 72"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="MEDWARE Logo"
+  >
+    <!-- Outer circle background -->
+    <circle cx="36" cy="36" r="34" fill="url(#logoGrad)" />
+    <!-- Pulse line (ECG) -->
+    <polyline
+      points="6,36 16,36 20,22 26,50 32,28 38,44 42,36 66,36"
+      stroke="white"
+      stroke-width="3"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity="0.85"
+    />
+    <!-- Medical cross centre -->
+    <rect x="30" y="14" width="12" height="34" rx="3" fill="white" opacity="0.22" />
+    <rect x="19" y="25" width="34" height="12" rx="3" fill="white" opacity="0.22" />
+    <!-- DNA dots -->
+    <circle cx="36" cy="60" r="3" fill="white" opacity="0.6" />
+    <circle cx="28" cy="57" r="2" fill="white" opacity="0.45" />
+    <circle cx="44" cy="57" r="2" fill="white" opacity="0.45" />
+    <!-- Gradient def -->
+    <defs>
+      <linearGradient id="logoGrad" x1="0" y1="0" x2="72" y2="72" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#00BCD4" />
+        <stop offset="100%" stop-color="#00796B" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  @if (showText) {
+    <div class="logo-text">
+      <span class="logo-name">MED<span class="logo-accent">WARE</span></span>
+      <span class="logo-tagline">Medical Awareness</span>
+    </div>
+  }
+</div>

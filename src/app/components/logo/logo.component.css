@@ -1,0 +1,48 @@
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logo-wrapper svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(0,188,212,0.35));
+  transition: transform 0.3s ease;
+}
+
+.logo-wrapper:hover svg {
+  transform: scale(1.06) rotate(-2deg);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-name {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.logo-accent {
+  color: #80DEEA;
+}
+
+.logo-tagline {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* Size variants */
+.small .logo-name  { font-size: 1.1rem; }
+.small .logo-tagline { display: none; }
+.large .logo-name  { font-size: 2rem; }
+.large .logo-tagline { font-size: 0.75rem; }

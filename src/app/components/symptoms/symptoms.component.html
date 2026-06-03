@@ -1,0 +1,70 @@
+<section id="symptoms" class="section symptoms-section">
+  <div class="section-container">
+
+    <div class="section-header">
+      <span class="section-badge">🔬</span>
+      <h2 class="section-title">{{ ts.t('symptoms.title') }}</h2>
+      <p class="section-subtitle">{{ ts.t('symptoms.subtitle') }}</p>
+    </div>
+
+    <!-- Local search -->
+    <div class="symptom-search">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [placeholder]="ts.t('symptoms.search.placeholder')"
+        [value]="searchQuery()"
+        (input)="onSearch($any($event.target).value)"
+        aria-label="Search symptoms"
+      />
+      @if (searchQuery()) {
+        <button class="clear-search" (click)="onSearch('')">✕</button>
+      }
+    </div>
+
+    <!-- No results -->
+    @if (filteredSymptoms.length === 0) {
+      <div class="no-results-block">
+        <span>🔍</span>
+        <p>{{ ts.t('symptoms.noResults') }}</p>
+      </div>
+    }
+
+    <!-- Cards -->
+    <div class="symptoms-grid">
+      @for (s of visibleSymptoms; track s.id) {
+        <article class="symptom-card" [class]="'sev-' + s.severity">
+          <div class="symptom-card-top">
+            <div class="symptom-name">{{ getSymptomName(s) }}</div>
+            <span class="severity-badge sev-{{ s.severity }}">
+              {{ getSeverityLabel(s.severity) }}
+            </span>
+          </div>
+
+          <div class="affiliated-label">{{ ts.t('symptoms.affiliatedWith') }}</div>
+          <ul class="diseases-list">
+            @for (d of getDiseases(s); track d) {
+              <li class="disease-tag">{{ d }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+
+    @if (!searchQuery() && filteredSymptoms.length > INITIAL_COUNT) {
+      <div class="see-more-area">
+        <button class="see-more-btn" (click)="toggleShowAll()">
+          @if (!showAll()) {
+            <span>{{ ts.t('symptoms.seeMore') }} <span class="arrow">↓</span></span>
+          } @else {
+            <span>{{ ts.t('symptoms.seeLess') }} <span class="arrow">↑</span></span>
+          }
+        </button>
+        <p class="count-label">
+          Showing {{ visibleSymptoms.length }} of {{ filteredSymptoms.length }}
+        </p>
+      </div>
+    }
+
+  </div>
+</section>

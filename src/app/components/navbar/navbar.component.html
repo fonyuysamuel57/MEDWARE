@@ -1,0 +1,71 @@
+<nav class="navbar" [class.scrolled]="scrolled()">
+  <div class="nav-container">
+
+    <!-- Logo -->
+    <button class="logo-btn" (click)="scrollTo('hero')" aria-label="Go to top">
+      <app-logo size="small" [showText]="true" />
+    </button>
+
+    <!-- Desktop Nav Links -->
+    <ul class="nav-links" [class.open]="menuOpen()">
+      <li><button (click)="scrollTo('first-aid')">{{ ts.t('nav.firstAid') }}</button></li>
+      <li><button (click)="scrollTo('symptoms')">{{ ts.t('nav.symptoms') }}</button></li>
+      <li><button (click)="scrollTo('diseases')">{{ ts.t('nav.diseases') }}</button></li>
+      <li><button (click)="scrollTo('health-tips')">{{ ts.t('nav.healthTips') }}</button></li>
+      <li><button (click)="scrollTo('articles')">{{ ts.t('nav.articles') }}</button></li>
+      <li><button (click)="scrollTo('misconceptions')">{{ ts.t('nav.misconceptions') }}</button></li>
+    </ul>
+
+    <!-- Right Controls -->
+    <div class="nav-controls">
+      <!-- Search -->
+      <div class="search-wrapper">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            [placeholder]="ts.t('nav.search.placeholder')"
+            [value]="searchQuery()"
+            (input)="onSearch($any($event.target).value)"
+            (focus)="showResults.set(searchQuery().length >= 2)"
+            aria-label="Search symptoms"
+          />
+          @if (searchQuery()) {
+            <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">✕</button>
+          }
+        </div>
+
+        @if (showResults()) {
+          <div class="search-results" role="listbox">
+            @if (searchResults().length === 0) {
+              <div class="no-results">{{ ts.t('symptoms.noResults') }}</div>
+            } @else {
+              @for (r of searchResults(); track r.id) {
+                <div class="result-item" role="option">
+                  <strong>{{ ts.getLang() === 'fr' ? r.symptomFr : r.symptom }}</strong>
+                  <span class="result-diseases">{{ getDiseasesLabel(r) }}</span>
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Language Toggle -->
+      <button
+        class="lang-btn"
+        (click)="ts.toggleLanguage()"
+        [title]="ts.t('nav.translateTitle')"
+        aria-label="Toggle language"
+      >
+        {{ ts.t('nav.translate') }}
+      </button>
+
+      <!-- Hamburger -->
+      <button class="hamburger" (click)="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+</nav>

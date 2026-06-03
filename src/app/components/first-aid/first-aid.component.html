@@ -1,0 +1,51 @@
+<section id="first-aid" class="section first-aid-section">
+  <div class="section-container">
+
+    <div class="section-header">
+      <span class="section-badge">🩺</span>
+      <h2 class="section-title">{{ ts.t('firstAid.title') }}</h2>
+      <p class="section-subtitle">{{ ts.t('firstAid.subtitle') }}</p>
+    </div>
+
+    <div class="cards-grid">
+      @for (item of visibleItems; track item.id) {
+        <article class="fa-card">
+          <div class="fa-card-header">
+            <span class="fa-icon">{{ item.icon }}</span>
+            <h3 class="fa-title">{{ getTitle(item) }}</h3>
+          </div>
+
+          <ol class="fa-steps">
+            @for (step of getSteps(item); track $index) {
+              <li>{{ step }}</li>
+            }
+          </ol>
+
+          @if (getWarning(item)) {
+            <div class="fa-warning">
+              <span class="warning-icon">⚠️</span>
+              <div>
+                <strong>{{ ts.t('firstAid.warning') }}:</strong>
+                {{ getWarning(item) }}
+              </div>
+            </div>
+          }
+        </article>
+      }
+    </div>
+
+    <div class="see-more-area">
+      <button class="see-more-btn" (click)="toggleShowAll()">
+        @if (!showAll()) {
+          <span>{{ ts.t('firstAid.seeMore') }} <span class="arrow">↓</span></span>
+        } @else {
+          <span>{{ ts.t('firstAid.seeLess') }} <span class="arrow">↑</span></span>
+        }
+      </button>
+      <p class="count-label">
+        Showing {{ visibleItems.length }} of {{ allItems.length }} tips
+      </p>
+    </div>
+
+  </div>
+</section>

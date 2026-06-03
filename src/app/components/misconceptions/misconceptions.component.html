@@ -1,0 +1,38 @@
+<section id="misconceptions" class="section misconceptions-section">
+  <div class="section-container">
+
+    <div class="section-header">
+      <span class="section-badge">❓</span>
+      <h2 class="section-title">{{ ts.t('misconceptions.title') }}</h2>
+      <p class="section-subtitle">{{ ts.t('misconceptions.subtitle') }}</p>
+    </div>
+
+    <div class="misc-grid">
+      @for (item of items; track item.id) {
+        <article class="misc-card">
+          <div class="misc-category">
+            <span>{{ item.icon }}</span>
+            <span>{{ getCategory(item) }}</span>
+          </div>
+
+          <div class="misc-myth">
+            <div class="misc-label myth-label">
+              ✗ {{ ts.t('misconceptions.myth') }}
+            </div>
+            <p class="myth-text">{{ getMyth(item) }}</p>
+          </div>
+
+          <div class="misc-arrow">→</div>
+
+          <div class="misc-truth">
+            <div class="misc-label truth-label">
+              ✓ {{ ts.t('misconceptions.truth') }}
+            </div>
+            <p class="truth-text">{{ getTruth(item) }}</p>
+          </div>
+        </article>
+      }
+    </div>
+
+  </div>
+</section>

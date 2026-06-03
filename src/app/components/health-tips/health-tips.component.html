@@ -1,0 +1,84 @@
+<section id="health-tips" class="section health-tips-section">
+  <div class="section-container">
+
+    <div class="section-header">
+      <span class="section-badge">🌿</span>
+      <h2 class="section-title">{{ ts.t('healthTips.title') }}</h2>
+      <p class="section-subtitle">{{ ts.t('healthTips.subtitle') }}</p>
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel-wrapper">
+      <div
+        class="carousel-slide"
+        [style.background]="currentTip.gradient"
+      >
+        <!-- Slide content -->
+        <div class="slide-inner">
+          <div class="slide-icon-area">
+            <div class="slide-icon-bg">
+              <span class="slide-icon">{{ currentTip.icon }}</span>
+            </div>
+          </div>
+
+          <div class="slide-content">
+            <div class="slide-counter">
+              {{ currentIndex() + 1 }} / {{ tips.length }}
+            </div>
+            <h3 class="slide-topic">{{ getTopic(currentTip) }}</h3>
+
+            <div class="slide-body">
+              <div class="slide-practices">
+                <h4>
+                  <span>✅</span>
+                  {{ ts.t('healthTips.goodPractices') }}
+                </h4>
+                <p>{{ getContent(currentTip) }}</p>
+              </div>
+
+              <div class="slide-consequences">
+                <h4>
+                  <span>⚠️</span>
+                  {{ ts.t('healthTips.consequences') }}
+                </h4>
+                <p>{{ getConsequences(currentTip) }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-btn prev" (click)="prev()" aria-label="Previous">&#8249;</button>
+        <button class="carousel-btn next" (click)="next()" aria-label="Next">&#8250;</button>
+      </div>
+
+      <!-- Dots -->
+      <div class="carousel-dots">
+        @for (tip of tips; track tip.id; let i = $index) {
+          <button
+            class="dot"
+            [class.active]="i === currentIndex()"
+            (click)="goTo(i)"
+            [attr.aria-label]="'Go to slide ' + (i + 1)"
+          ></button>
+        }
+      </div>
+
+      <!-- Topic thumbnails -->
+      <div class="topic-strip">
+        @for (tip of tips; track tip.id; let i = $index) {
+          <button
+            class="topic-thumb"
+            [class.active]="i === currentIndex()"
+            [style.background]="i === currentIndex() ? tip.gradient : '#f0fdfe'"
+            (click)="goTo(i)"
+          >
+            <span>{{ tip.icon }}</span>
+            <span class="thumb-label">{{ getTopic(tip) }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>

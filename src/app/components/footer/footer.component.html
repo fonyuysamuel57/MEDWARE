@@ -1,0 +1,82 @@
+<footer id="footer" class="footer">
+
+  <div class="footer-main">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <app-logo size="medium" [showText]="true" />
+        <p class="footer-about">{{ ts.t('footer.about') }}</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">{{ ts.t('footer.quickLinks') }}</h4>
+        <ul class="footer-links">
+          @for (link of quickLinks; track link.target) {
+            <li>
+              <button (click)="scrollTo(link.target)">{{ ts.t(link.label) }}</button>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">{{ ts.t('footer.contact') }}</h4>
+        <ul class="contact-list">
+          <li>
+            <span class="contact-icon">📍</span>
+            <span>{{ ts.t('footer.address') }}</span>
+          </li>
+          <li>
+            <span class="contact-icon">📞</span>
+            <span>+237 653 084 106</span>
+          </li>
+          <li>
+            <span class="contact-icon">📞</span>
+            <span>+237 680 120 527</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">{{ ts.t('footer.social') }}</h4>
+        <ul class="social-list">
+          @for (s of socialLinks; track s.platform) {
+            <li>
+              <a [href]="s.url" target="_blank" rel="noopener noreferrer" class="social-link">
+                <span class="social-icon">{{ s.icon }}</span>
+                <div class="social-info">
+                  <span class="social-platform">{{ s.platform }}</span>
+                  <span class="social-handle">{{ s.handle }}</span>
+                </div>
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer-bar">
+    <div class="disclaimer-inner">
+      <span class="disclaimer-icon">⚕️</span>
+      <div>
+        <strong>{{ ts.t('footer.disclaimer.title') }}</strong>
+        {{ ts.t('footer.disclaimer.body') }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <span>{{ ts.t('footer.rights') }}</span>
+    <span class="footer-divider">·</span>
+    <span>Built with Angular 21 for Health Awareness</span>
+  </div>
+
+</footer>

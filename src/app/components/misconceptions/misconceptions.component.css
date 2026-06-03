@@ -1,0 +1,90 @@
+.misconceptions-section {
+  background: white;
+}
+
+.misc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 22px;
+}
+
+.misc-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,96,100,0.08);
+  border: 1px solid #e0f2f1;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.misc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 22px rgba(0,96,100,0.13);
+}
+
+.misc-category {
+  background: linear-gradient(135deg, #006064, #00838F);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.misc-myth {
+  background: #fff3e0;
+  padding: 16px;
+  border-bottom: 2px dashed #ffe082;
+  flex: 1;
+}
+
+.misc-arrow {
+  text-align: center;
+  padding: 6px;
+  font-size: 1.2rem;
+  color: #00838F;
+  font-weight: 700;
+  background: #f0fdfe;
+}
+
+.misc-truth {
+  background: #e8f5e9;
+  padding: 16px;
+  flex: 1;
+}
+
+.misc-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.myth-label { color: #bf360c; }
+.truth-label { color: #1b5e20; }
+
+.myth-text {
+  font-size: 0.88rem;
+  color: #5d4037;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+
+.truth-text {
+  font-size: 0.88rem;
+  color: #2e7d32;
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .misc-grid { grid-template-columns: 1fr; }
+}

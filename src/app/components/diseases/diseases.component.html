@@ -1,0 +1,102 @@
+<section id="diseases" class="section diseases-section">
+  <div class="section-container">
+
+    <div class="section-header">
+      <span class="section-badge">🏥</span>
+      <h2 class="section-title">{{ ts.t('diseases.title') }}</h2>
+      <p class="section-subtitle">{{ ts.t('diseases.subtitle') }}</p>
+    </div>
+
+    <div class="diseases-grid">
+      @for (d of visibleDiseases; track d.id) {
+        <article class="disease-card" [style.--accent]="d.color">
+          <!-- Card Header (always visible) -->
+          <div class="dc-header" (click)="toggleExpand(d.id)">
+            <div class="dc-header-left">
+              <span class="dc-icon">{{ d.icon }}</span>
+              <h3 class="dc-name">{{ getName(d) }}</h3>
+            </div>
+            <span class="dc-toggle">{{ isExpanded(d.id) ? '▲' : '▼' }}</span>
+          </div>
+
+          <!-- Expanded content -->
+          @if (isExpanded(d.id)) {
+            <div class="dc-body">
+
+              <!-- First Aid -->
+              <div class="dc-section dc-firstaid">
+                <h4><span class="dc-sec-icon">🩺</span> {{ ts.t('diseases.firstAid') }}</h4>
+                <p>{{ getField(d, 'firstAid') }}</p>
+              </div>
+
+              <!-- Causes -->
+              <div class="dc-section">
+                <h4><span class="dc-sec-icon">⚠️</span> {{ ts.t('diseases.causes') }}</h4>
+                <ul>
+                  @for (c of getList(d.causes, d.causesFr); track c) {
+                    <li>{{ c }}</li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Symptoms -->
+              <div class="dc-section">
+                <h4><span class="dc-sec-icon">🔬</span> {{ ts.t('diseases.symptoms') }}</h4>
+                <ul>
+                  @for (s of getList(d.symptoms, d.symptomsFr); track s) {
+                    <li>{{ s }}</li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Prevention -->
+              <div class="dc-section dc-prevention">
+                <h4><span class="dc-sec-icon">🛡️</span> {{ ts.t('diseases.prevention') }}</h4>
+                <ul>
+                  @for (p of getList(d.prevention, d.preventionFr); track p) {
+                    <li>{{ p }}</li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Misconceptions -->
+              <div class="dc-section dc-myth">
+                <h4><span class="dc-sec-icon">❌</span> {{ ts.t('diseases.misconceptions') }}</h4>
+                <ul>
+                  @for (m of getList(d.misconceptions, d.misconceptionsFr); track m) {
+                    <li>{{ m }}</li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Treatments -->
+              <div class="dc-section dc-treatment">
+                <h4><span class="dc-sec-icon">💊</span> {{ ts.t('diseases.treatments') }}</h4>
+                <ul>
+                  @for (t of getList(d.treatments, d.treatmentsFr); track t) {
+                    <li>{{ t }}</li>
+                  }
+                </ul>
+              </div>
+
+            </div>
+          }
+        </article>
+      }
+    </div>
+
+    @if (allDiseases.length > INITIAL_COUNT) {
+      <div class="see-more-area">
+        <button class="see-more-btn" (click)="toggleShowAll()">
+          @if (!showAll()) {
+            <span>{{ ts.t('diseases.seeMore') }} <span class="arrow">↓</span></span>
+          } @else {
+            <span>{{ ts.t('diseases.seeLess') }} <span class="arrow">↑</span></span>
+          }
+        </button>
+        <p class="count-label">Showing {{ visibleDiseases.length }} of {{ allDiseases.length }} diseases</p>
+      </div>
+    }
+
+  </div>
+</section>
