@@ -7,8 +7,68 @@
       <p class="section-subtitle">{{ ts.t('diseases.subtitle') }}</p>
     </div>
 
+    @if (auth.isAdmin()) {
+      <div class="admin-toolbar">
+        <button class="add-disease-btn" (click)="showCreateForm.set(!showCreateForm())">
+          {{ ts.t('diseases.addDisease') }}
+        </button>
+      </div>
+    }
+
+    @if (showCreateForm()) {
+      <div class="disease-create-form">
+        <h4>{{ ts.t('diseases.create.title') }}</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>{{ ts.t('diseases.create.icon') }}</label>
+            <input type="text" [(ngModel)]="newForm.icon" maxlength="4" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('diseases.create.color') }}</label>
+            <input type="color" [(ngModel)]="newForm.color" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('diseases.create.name') }}</label>
+            <input type="text" [(ngModel)]="newForm.name" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('diseases.firstAid') }}</label>
+            <textarea rows="3" [(ngModel)]="newForm.firstAid"></textarea>
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('diseases.causes') }} ({{ ts.t('diseases.create.onePerLine') }})</label>
+            <textarea rows="4" [(ngModel)]="newForm.causes"></textarea>
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('diseases.symptoms') }} ({{ ts.t('diseases.create.onePerLine') }})</label>
+            <textarea rows="4" [(ngModel)]="newForm.symptoms"></textarea>
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('diseases.prevention') }} ({{ ts.t('diseases.create.onePerLine') }})</label>
+            <textarea rows="4" [(ngModel)]="newForm.prevention"></textarea>
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('diseases.misconceptions') }} ({{ ts.t('diseases.create.onePerLine') }})</label>
+            <textarea rows="4" [(ngModel)]="newForm.misconceptions"></textarea>
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('diseases.treatments') }} ({{ ts.t('diseases.create.onePerLine') }})</label>
+            <textarea rows="4" [(ngModel)]="newForm.treatments"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="publish-disease-btn" (click)="addDisease()">
+            {{ ts.t('diseases.create.submit') }}
+          </button>
+          <button class="cancel-disease-btn" (click)="cancelCreate()">
+            {{ ts.t('diseases.create.cancel') }}
+          </button>
+        </div>
+      </div>
+    }
+
     <div class="diseases-grid">
-      @for (d of visibleDiseases; track d.id) {
+      @for (d of visibleDiseases; track d.docId) {
         <article class="disease-card" [style.--accent]="d.color">
           <!-- Card Header (always visible) -->
           <div class="dc-header" (click)="toggleExpand(d.id)">
@@ -16,6 +76,11 @@
               <span class="dc-icon">{{ d.icon }}</span>
               <h3 class="dc-name">{{ getName(d) }}</h3>
             </div>
+            @if (auth.isAdmin()) {
+              <button class="delete-disease-btn" (click)="$event.stopPropagation(); removeDisease(d)" [attr.aria-label]="ts.t('diseases.delete')">
+                🗑️
+              </button>
+            }
             <span class="dc-toggle">{{ isExpanded(d.id) ? '▲' : '▼' }}</span>
           </div>
 
@@ -85,7 +150,7 @@
       }
     </div>
 
-    @if (allDiseases.length > INITIAL_COUNT) {
+    @if (allDiseases().length > INITIAL_COUNT) {
       <div class="see-more-area">
         <button class="see-more-btn" (click)="toggleShowAll()">
           @if (!showAll()) {
@@ -94,7 +159,7 @@
             <span>{{ ts.t('diseases.seeLess') }} <span class="arrow">↑</span></span>
           }
         </button>
-        <p class="count-label">Showing {{ visibleDiseases.length }} of {{ allDiseases.length }} diseases</p>
+        <p class="count-label">Showing {{ visibleDiseases.length }} of {{ allDiseases().length }} diseases</p>
       </div>
     }
 

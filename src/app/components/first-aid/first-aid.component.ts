@@ -1,35 +1,52 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
-import { FIRST_AID_DATA } from '../../data/first-aid.data';
+import { AuthService } from '../../services/auth.service';
+import { FirstAidService } from '../../services/first-aid.service';
 import { FirstAidItem } from '../../models/types';
+
+interface NewFirstAidForm {
+  title: string;
+  icon: string;
+  steps: string;
+  warning: string;
+}
+
+type FirstAidDoc = FirstAidItem & { docId: string };
 
 @Component({
   selector: 'app-first-aid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './first-aid.component.html',
   styleUrl: './first-aid.component.css'
 })
 export class FirstAidComponent {
   readonly ts = inject(TranslationService);
-  readonly allItems: FirstAidItem[] = FIRST_AID_DATA;
+  readonly auth = inject(AuthService);
+  private readonly firstAidService = inject(FirstAidService);
+
+  readonly allItems = this.firstAidService.items;
   readonly INITIAL_COUNT = 5;
   showAll = signal(false);
+  showCreateForm = signal(false);
 
-  get visibleItems(): FirstAidItem[] {
-    return this.showAll() ? this.allItems : this.allItems.slice(0, this.INITIAL_COUNT);
+  newForm: NewFirstAidForm = { title: '', icon: '🩹', steps: '', warning: '' };
+
+  get visibleItems(): FirstAidDoc[] {
+    return this.showAll() ? this.allItems() : this.allItems().slice(0, this.INITIAL_COUNT);
   }
 
-  getTitle(item: FirstAidItem): string {
+  getTitle(item: FirstAidDoc): string {
     return this.ts.getLang() === 'fr' ? item.titleFr : item.title;
   }
 
-  getSteps(item: FirstAidItem): string[] {
+  getSteps(item: FirstAidDoc): string[] {
     return this.ts.getLang() === 'fr' ? item.stepsFr : item.steps;
   }
 
-  getWarning(item: FirstAidItem): string | undefined {
+  getWarning(item: FirstAidDoc): string | undefined {
     return this.ts.getLang() === 'fr' ? item.warningFr : item.warning;
   }
 
@@ -38,5 +55,31 @@ export class FirstAidComponent {
     if (!this.showAll()) {
       document.getElementById('first-aid')?.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  async addFirstAidItem(): Promise<void> {
+    const steps = this.newForm.steps.split('\n').map(s => s.trim()).filter(Boolean);
+    if (!this.newForm.title || !this.newForm.icon || steps.length === 0) return;
+    const warning = this.newForm.warning.trim();
+    const item: FirstAidItem = {
+      id: Date.now(),
+      title: this.newForm.title,
+      titleFr: this.newForm.title,
+      icon: this.newForm.icon,
+      steps,
+      stepsFr: steps,
+      ...(warning ? { warning, warningFr: warning } : {}),
+    };
+    await this.firstAidService.addItem(item);
+    this.cancelCreate();
+  }
+
+  cancelCreate(): void {
+    this.newForm = { title: '', icon: '🩹', steps: '', warning: '' };
+    this.showCreateForm.set(false);
+  }
+
+  async removeFirstAidItem(item: FirstAidDoc): Promise<void> {
+    await this.firstAidService.deleteItem(item.docId);
   }
 }

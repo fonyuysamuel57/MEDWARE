@@ -1,6 +1,37 @@
-import { Misconception } from '../models/types';
+// One-time script: uploads the original misconceptions (previously in
+// src/app/data/misconceptions.data.ts) into the Firestore "misconceptions"
+// collection. Run once after creating the admin account in
+// Firebase Console > Authentication > Users.
+//
+// Usage:
+//   node scripts/seed-misconceptions.mjs <admin-password>
 
-export const MISCONCEPTIONS_DATA: Misconception[] = [
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+const ADMIN_EMAIL = 'fonyuysamuel57@gmail.com';
+
+const password = process.argv[2];
+if (!password) {
+  console.error('Usage: node scripts/seed-misconceptions.mjs <admin-password>');
+  process.exit(1);
+}
+
+const app = initializeApp({
+  projectId: 'medware-4c955',
+  appId: '1:203119931295:web:a5b532340cfb02d16917aa',
+  storageBucket: 'medware-4c955.firebasestorage.app',
+  apiKey: 'AIzaSyDojVvdBrMfMzz7SERVq4IHmjHrDjW9VwQ',
+  authDomain: 'medware-4c955.firebaseapp.com',
+  messagingSenderId: '203119931295',
+  measurementId: 'G-YSPYTZG099',
+});
+
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+const MISCONCEPTIONS_DATA = [
   {
     id: 1,
     myth: '"Malaria is treated by sweating it out with blankets and hot pepper soup."',
@@ -122,3 +153,14 @@ export const MISCONCEPTIONS_DATA: Misconception[] = [
     icon: '💊',
   },
 ];
+
+await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
+
+const itemsCollection = collection(firestore, 'misconceptions');
+for (const item of MISCONCEPTIONS_DATA) {
+  await addDoc(itemsCollection, { ...item, createdAt: serverTimestamp() });
+  console.log(`Seeded: ${item.category}`);
+}
+
+console.log(`Done. Seeded ${MISCONCEPTIONS_DATA.length} misconceptions.`);
+process.exit(0);

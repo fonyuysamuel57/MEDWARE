@@ -7,9 +7,54 @@
       <p class="section-subtitle">{{ ts.t('misconceptions.subtitle') }}</p>
     </div>
 
+    @if (auth.isAdmin()) {
+      <div class="admin-toolbar">
+        <button class="add-misc-btn" (click)="showCreateForm.set(!showCreateForm())">
+          {{ ts.t('misconceptions.addMisconception') }}
+        </button>
+      </div>
+    }
+
+    @if (showCreateForm()) {
+      <div class="misc-create-form">
+        <h4>{{ ts.t('misconceptions.create.title') }}</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>{{ ts.t('misconceptions.create.icon') }}</label>
+            <input type="text" [(ngModel)]="newForm.icon" maxlength="4" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('misconceptions.create.category') }}</label>
+            <input type="text" [(ngModel)]="newForm.category" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('misconceptions.myth') }}</label>
+            <textarea rows="3" [(ngModel)]="newForm.myth"></textarea>
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('misconceptions.truth') }}</label>
+            <textarea rows="4" [(ngModel)]="newForm.truth"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="publish-misc-btn" (click)="addMisconception()">
+            {{ ts.t('misconceptions.create.submit') }}
+          </button>
+          <button class="cancel-misc-btn" (click)="cancelCreate()">
+            {{ ts.t('misconceptions.create.cancel') }}
+          </button>
+        </div>
+      </div>
+    }
+
     <div class="misc-grid">
-      @for (item of items; track item.id) {
+      @for (item of items(); track item.docId) {
         <article class="misc-card">
+          @if (auth.isAdmin()) {
+            <button class="delete-misc-btn" (click)="removeMisconception(item)" [attr.aria-label]="ts.t('misconceptions.delete')">
+              🗑️
+            </button>
+          }
           <div class="misc-category">
             <span>{{ item.icon }}</span>
             <span>{{ getCategory(item) }}</span>

@@ -34,6 +34,16 @@ export const translations: Record<string, Record<string, string>> = {
     'firstAid.seeLess': 'See Less',
     'firstAid.warning': 'Warning',
     'firstAid.steps': 'Steps',
+    'firstAid.addTip': '+ Add First Aid Tip',
+    'firstAid.delete': 'Delete tip',
+    'firstAid.create.title': 'Add New First Aid Tip (Admin)',
+    'firstAid.create.icon': 'Icon (emoji)',
+    'firstAid.create.itemTitle': 'Tip Title',
+    'firstAid.create.steps': 'Steps (one per line)',
+    'firstAid.create.stepsPlaceholder': 'Step 1\nStep 2\nStep 3',
+    'firstAid.create.optional': 'optional',
+    'firstAid.create.submit': 'Publish Tip',
+    'firstAid.create.cancel': 'Cancel',
 
     // Symptoms
     'symptoms.title': 'Symptom Checker',
@@ -58,6 +68,15 @@ export const translations: Record<string, Record<string, string>> = {
     'diseases.prevention': 'Prevention',
     'diseases.misconceptions': 'Mythical Misconceptions',
     'diseases.treatments': 'Treatments',
+    'diseases.addDisease': '+ Add Disease',
+    'diseases.delete': 'Delete disease',
+    'diseases.create.title': 'Add New Disease (Admin)',
+    'diseases.create.icon': 'Icon (emoji)',
+    'diseases.create.color': 'Accent Color',
+    'diseases.create.name': 'Disease Name',
+    'diseases.create.onePerLine': 'one per line',
+    'diseases.create.submit': 'Publish',
+    'diseases.create.cancel': 'Cancel',
 
     // Health Tips
     'healthTips.title': 'Health Tips for Cameroon',
@@ -84,12 +103,20 @@ export const translations: Record<string, Record<string, string>> = {
     'articles.noArticles': 'No articles available yet.',
     'articles.by': 'By',
     'articles.addArticle': '+ Add Article',
+    'articles.delete': 'Delete article',
 
     // Misconceptions
     'misconceptions.title': 'Traditional Misconceptions vs. Medical Facts',
     'misconceptions.subtitle': 'Separating harmful myths from life-saving truths.',
     'misconceptions.myth': 'Myth',
     'misconceptions.truth': 'Medical Truth',
+    'misconceptions.addMisconception': '+ Add Misconception',
+    'misconceptions.delete': 'Delete misconception',
+    'misconceptions.create.title': 'Add New Misconception (Admin)',
+    'misconceptions.create.icon': 'Icon (emoji)',
+    'misconceptions.create.category': 'Category',
+    'misconceptions.create.submit': 'Publish',
+    'misconceptions.create.cancel': 'Cancel',
 
     // Footer
     'footer.about': 'Empowering communities through accurate health information.',
@@ -136,6 +163,16 @@ export const translations: Record<string, Record<string, string>> = {
     'firstAid.seeLess': 'Réduire',
     'firstAid.warning': 'Avertissement',
     'firstAid.steps': 'Étapes',
+    'firstAid.addTip': '+ Ajouter un Conseil',
+    'firstAid.delete': 'Supprimer le conseil',
+    'firstAid.create.title': 'Ajouter un Conseil de Premiers Secours (Admin)',
+    'firstAid.create.icon': 'Icône (emoji)',
+    'firstAid.create.itemTitle': 'Titre du Conseil',
+    'firstAid.create.steps': 'Étapes (une par ligne)',
+    'firstAid.create.stepsPlaceholder': 'Étape 1\nÉtape 2\nÉtape 3',
+    'firstAid.create.optional': 'optionnel',
+    'firstAid.create.submit': 'Publier',
+    'firstAid.create.cancel': 'Annuler',
 
     // Symptoms
     'symptoms.title': 'Vérificateur de Symptômes',
@@ -160,6 +197,15 @@ export const translations: Record<string, Record<string, string>> = {
     'diseases.prevention': 'Prévention',
     'diseases.misconceptions': 'Idées Reçues Traditionnelles',
     'diseases.treatments': 'Traitements',
+    'diseases.addDisease': '+ Ajouter une Maladie',
+    'diseases.delete': 'Supprimer la maladie',
+    'diseases.create.title': 'Ajouter une Nouvelle Maladie (Admin)',
+    'diseases.create.icon': 'Icône (emoji)',
+    'diseases.create.color': 'Couleur d\'Accent',
+    'diseases.create.name': 'Nom de la Maladie',
+    'diseases.create.onePerLine': 'une par ligne',
+    'diseases.create.submit': 'Publier',
+    'diseases.create.cancel': 'Annuler',
 
     // Health Tips
     'healthTips.title': 'Conseils Santé pour le Cameroun',
@@ -186,12 +232,20 @@ export const translations: Record<string, Record<string, string>> = {
     'articles.noArticles': 'Aucun article disponible.',
     'articles.by': 'Par',
     'articles.addArticle': '+ Ajouter un Article',
+    'articles.delete': 'Supprimer l\'article',
 
     // Misconceptions
     'misconceptions.title': 'Idées Reçues vs Faits Médicaux',
     'misconceptions.subtitle': 'Séparer les mythes dangereux des vérités qui sauvent des vies.',
     'misconceptions.myth': 'Mythe',
     'misconceptions.truth': 'Vérité Médicale',
+    'misconceptions.addMisconception': '+ Ajouter une Idée Reçue',
+    'misconceptions.delete': 'Supprimer l\'idée reçue',
+    'misconceptions.create.title': 'Ajouter une Nouvelle Idée Reçue (Admin)',
+    'misconceptions.create.icon': 'Icône (emoji)',
+    'misconceptions.create.category': 'Catégorie',
+    'misconceptions.create.submit': 'Publier',
+    'misconceptions.create.cancel': 'Annuler',
 
     // Footer
     'footer.about': 'Renforcer les communautés grâce à des informations de santé précises.',

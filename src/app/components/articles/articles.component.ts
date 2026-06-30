@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
 import { AuthService } from '../../services/auth.service';
-import { ARTICLES_DATA } from '../../data/articles.data';
+import { ArticlesService } from '../../services/articles.service';
 import { Article } from '../../models/types';
 
 interface NewArticleForm {
@@ -13,6 +13,8 @@ interface NewArticleForm {
   tags: string;
   imageUrl: string;
 }
+
+type ArticleDoc = Article & { docId: string };
 
 @Component({
   selector: 'app-articles',
@@ -24,8 +26,9 @@ interface NewArticleForm {
 export class ArticlesComponent {
   readonly ts = inject(TranslationService);
   readonly auth = inject(AuthService);
+  private readonly articlesService = inject(ArticlesService);
 
-  articles = signal<Article[]>([...ARTICLES_DATA]);
+  readonly articles = this.articlesService.articles;
   expandedId = signal<number | null>(null);
   showUploadForm = signal(false);
   showLoginForm = signal(false);
@@ -36,11 +39,11 @@ export class ArticlesComponent {
     title: '', content: '', author: '', tags: '', imageUrl: ''
   };
 
-  getTitle(a: Article): string {
+  getTitle(a: ArticleDoc): string {
     return this.ts.getLang() === 'fr' ? a.titleFr : a.title;
   }
 
-  getContent(a: Article): string {
+  getContent(a: ArticleDoc): string {
     return this.ts.getLang() === 'fr' ? a.contentFr : a.content;
   }
 
@@ -50,17 +53,18 @@ export class ArticlesComponent {
 
   isExpanded(id: number): boolean { return this.expandedId() === id; }
 
-  tryLogin(): void {
-    const ok = this.auth.login(this.loginPassword());
+  async tryLogin(): Promise<void> {
+    const ok = await this.auth.login(this.loginPassword());
     if (ok) {
       this.loginError.set(false);
       this.showLoginForm.set(false);
+      this.loginPassword.set('');
     } else {
       this.loginError.set(true);
     }
   }
 
-  publishArticle(): void {
+  async publishArticle(): Promise<void> {
     if (!this.newForm.title || !this.newForm.content || !this.newForm.author) return;
     const article: Article = {
       id: Date.now(),
@@ -73,9 +77,13 @@ export class ArticlesComponent {
       imageUrl: this.newForm.imageUrl || '',
       tags: this.newForm.tags.split(',').map(t => t.trim()).filter(Boolean),
     };
-    this.articles.update(list => [article, ...list]);
+    await this.articlesService.addArticle(article);
     this.newForm = { title: '', content: '', author: '', tags: '', imageUrl: '' };
     this.showUploadForm.set(false);
+  }
+
+  async removeArticle(a: ArticleDoc): Promise<void> {
+    await this.articlesService.deleteArticle(a.docId);
   }
 
   cancelUpload(): void {
