@@ -2,6 +2,105 @@
   background: #f0fdfe;
 }
 
+/* Admin toolbar */
+.admin-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.add-symptom-btn {
+  background: linear-gradient(135deg, #006064, #00ACC1);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Create form */
+.symptom-create-form {
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
+  border: 1px solid #b2ebf2;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 14px rgba(0,96,100,0.08);
+}
+
+.symptom-create-form h4 {
+  margin: 0 0 20px;
+  color: #006064;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.symptom-create-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.symptom-create-form .form-group { display: flex; flex-direction: column; gap: 6px; }
+.symptom-create-form .form-group.full { grid-column: 1 / -1; }
+
+.symptom-create-form .form-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #00695c;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.symptom-create-form .form-group input,
+.symptom-create-form .form-group textarea,
+.symptom-create-form .form-group select {
+  border: 1.5px solid #b2ebf2;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+  background: white;
+}
+
+.symptom-create-form .form-group input:focus,
+.symptom-create-form .form-group textarea:focus,
+.symptom-create-form .form-group select:focus { border-color: #00BCD4; }
+
+.symptom-create-form .form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.publish-symptom-btn {
+  background: linear-gradient(135deg, #006064, #00ACC1);
+  color: white;
+  border: none;
+  padding: 11px 28px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cancel-symptom-btn {
+  background: none;
+  border: 1px solid #e0e0e0;
+  color: #757575;
+  padding: 11px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 /* Search bar */
 .symptom-search {
   display: flex;
@@ -83,6 +182,29 @@
   gap: 8px;
   margin-bottom: 12px;
 }
+
+.card-top-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.delete-symptom-btn {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #ffcdd2;
+  color: #e53935;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-symptom-btn:hover { background: #ffebee; }
 
 .symptom-name {
   font-size: 0.95rem;

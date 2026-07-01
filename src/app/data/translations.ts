@@ -56,6 +56,15 @@ export const translations: Record<string, Record<string, string>> = {
     'symptoms.severity.mild': 'Mild',
     'symptoms.severity.moderate': 'Moderate',
     'symptoms.severity.severe': 'Severe',
+    'symptoms.addSymptom': '+ Add Symptom',
+    'symptoms.delete': 'Delete symptom',
+    'symptoms.create.title': 'Add New Symptom (Admin)',
+    'symptoms.create.name': 'Symptom Name',
+    'symptoms.create.severity': 'Severity',
+    'symptoms.create.diseases': 'Associated Conditions (one per line)',
+    'symptoms.create.diseasesPlaceholder': 'Malaria\nTyphoid\nFlu',
+    'symptoms.create.submit': 'Publish',
+    'symptoms.create.cancel': 'Cancel',
 
     // Diseases
     'diseases.title': 'Disease & Disorder Guide',
@@ -185,6 +194,15 @@ export const translations: Record<string, Record<string, string>> = {
     'symptoms.severity.mild': 'Léger',
     'symptoms.severity.moderate': 'Modéré',
     'symptoms.severity.severe': 'Grave',
+    'symptoms.addSymptom': '+ Ajouter un Symptôme',
+    'symptoms.delete': 'Supprimer le symptôme',
+    'symptoms.create.title': 'Ajouter un Nouveau Symptôme (Admin)',
+    'symptoms.create.name': 'Nom du Symptôme',
+    'symptoms.create.severity': 'Sévérité',
+    'symptoms.create.diseases': 'Conditions Associées (une par ligne)',
+    'symptoms.create.diseasesPlaceholder': 'Paludisme\nFièvre Typhoïde\nGrippe',
+    'symptoms.create.submit': 'Publier',
+    'symptoms.create.cancel': 'Annuler',
 
     // Diseases
     'diseases.title': 'Guide des Maladies',
