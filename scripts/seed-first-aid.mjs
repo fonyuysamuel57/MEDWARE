@@ -1,6 +1,37 @@
-import { FirstAidItem } from '../models/types';
+// One-time script: uploads the original first-aid tips (previously in
+// src/app/data/first-aid.data.ts) into the Firestore "firstAid" collection.
+// Run once after creating the admin account in
+// Firebase Console > Authentication > Users.
+//
+// Usage:
+//   node scripts/seed-first-aid.mjs <admin-password>
 
-export const FIRST_AID_DATA: FirstAidItem[] = [
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+const ADMIN_EMAIL = 'fonyuysamuel57@gmail.com';
+
+const password = process.argv[2];
+if (!password) {
+  console.error('Usage: node scripts/seed-first-aid.mjs <admin-password>');
+  process.exit(1);
+}
+
+const app = initializeApp({
+  projectId: 'medware-4c955',
+  appId: '1:203119931295:web:a5b532340cfb02d16917aa',
+  storageBucket: 'medware-4c955.firebasestorage.app',
+  apiKey: 'AIzaSyDojVvdBrMfMzz7SERVq4IHmjHrDjW9VwQ',
+  authDomain: 'medware-4c955.firebaseapp.com',
+  messagingSenderId: '203119931295',
+  measurementId: 'G-YSPYTZG099',
+});
+
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+const FIRST_AID_DATA = [
   {
     id: 1,
     title: 'Choking (Adult)',
@@ -432,3 +463,14 @@ export const FIRST_AID_DATA: FirstAidItem[] = [
     warningFr: 'En cas de doute, traitez toujours d\'abord comme une hypoglycémie (donnez du sucre).',
   },
 ];
+
+await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
+
+const itemsCollection = collection(firestore, 'firstAid');
+for (const item of FIRST_AID_DATA) {
+  await addDoc(itemsCollection, { ...item, createdAt: serverTimestamp() });
+  console.log(`Seeded: ${item.title}`);
+}
+
+console.log(`Done. Seeded ${FIRST_AID_DATA.length} first-aid tips.`);
+process.exit(0);

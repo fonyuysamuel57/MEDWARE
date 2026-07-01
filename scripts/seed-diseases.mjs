@@ -1,6 +1,37 @@
-import { Disease } from '../models/types';
+// One-time script: uploads the original diseases (previously in
+// src/app/data/diseases.data.ts) into the Firestore "diseases" collection.
+// Run once after creating the admin account in
+// Firebase Console > Authentication > Users.
+//
+// Usage:
+//   node scripts/seed-diseases.mjs <admin-password>
 
-export const DISEASES_DATA: Disease[] = [
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+const ADMIN_EMAIL = 'fonyuysamuel57@gmail.com';
+
+const password = process.argv[2];
+if (!password) {
+  console.error('Usage: node scripts/seed-diseases.mjs <admin-password>');
+  process.exit(1);
+}
+
+const app = initializeApp({
+  projectId: 'medware-4c955',
+  appId: '1:203119931295:web:a5b532340cfb02d16917aa',
+  storageBucket: 'medware-4c955.firebasestorage.app',
+  apiKey: 'AIzaSyDojVvdBrMfMzz7SERVq4IHmjHrDjW9VwQ',
+  authDomain: 'medware-4c955.firebaseapp.com',
+  messagingSenderId: '203119931295',
+  measurementId: 'G-YSPYTZG099',
+});
+
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+const DISEASES_DATA = [
   {
     id: 1,
     name: 'Malaria',
@@ -135,3 +166,14 @@ export const DISEASES_DATA: Disease[] = [
     treatmentsFr: ['VIH: Thérapie antirétrovirale (TAR) — à vie', 'Gonorrhée/Chlamydia: Antibiotiques', 'Syphilis: Injections de pénicilline', 'Herpès: Médicaments antiviraux', 'Hépatite B/C: Médicaments antiviraux'],
   },
 ];
+
+await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
+
+const diseasesCollection = collection(firestore, 'diseases');
+for (const disease of DISEASES_DATA) {
+  await addDoc(diseasesCollection, { ...disease, createdAt: serverTimestamp() });
+  console.log(`Seeded: ${disease.name}`);
+}
+
+console.log(`Done. Seeded ${DISEASES_DATA.length} diseases.`);
+process.exit(0);

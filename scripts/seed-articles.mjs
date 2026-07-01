@@ -1,6 +1,37 @@
-import { Article } from '../models/types';
+// One-time script: uploads the original sample articles (previously in
+// src/app/data/articles.data.ts) into the Firestore "articles" collection.
+// Run once after creating the admin account in
+// Firebase Console > Authentication > Users.
+//
+// Usage:
+//   node scripts/seed-articles.mjs <admin-password>
 
-export const ARTICLES_DATA: Article[] = [
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
+const ADMIN_EMAIL = 'fonyuysamuel57@gmail.com';
+
+const password = process.argv[2];
+if (!password) {
+  console.error('Usage: node scripts/seed-articles.mjs <admin-password>');
+  process.exit(1);
+}
+
+const app = initializeApp({
+  projectId: 'medware-4c955',
+  appId: '1:203119931295:web:a5b532340cfb02d16917aa',
+  storageBucket: 'medware-4c955.firebasestorage.app',
+  apiKey: 'AIzaSyDojVvdBrMfMzz7SERVq4IHmjHrDjW9VwQ',
+  authDomain: 'medware-4c955.firebaseapp.com',
+  messagingSenderId: '203119931295',
+  measurementId: 'G-YSPYTZG099',
+});
+
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+const ARTICLES_DATA = [
   {
     id: 1,
     title: 'Understanding Cerebral Malaria: Cameroon\'s Silent Killer',
@@ -190,3 +221,14 @@ De la conception au deuxième anniversaire de l'enfant — environ 1 000 jours �
 *Consultez toujours un professionnel de santé pour des conseils personnalisés.*`,
   },
 ];
+
+await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
+
+const articlesCollection = collection(firestore, 'articles');
+for (const article of ARTICLES_DATA) {
+  await addDoc(articlesCollection, article);
+  console.log(`Seeded: ${article.title}`);
+}
+
+console.log(`Done. Seeded ${ARTICLES_DATA.length} articles.`);
+process.exit(0);

@@ -7,78 +7,133 @@
       <p class="section-subtitle">{{ ts.t('healthTips.subtitle') }}</p>
     </div>
 
-    <!-- Carousel -->
-    <div class="carousel-wrapper">
-      <div
-        class="carousel-slide"
-        [style.background]="currentTip.gradient"
-      >
-        <!-- Slide content -->
-        <div class="slide-inner">
-          <div class="slide-icon-area">
-            <div class="slide-icon-bg">
-              <span class="slide-icon">{{ currentTip.icon }}</span>
-            </div>
+    @if (auth.isAdmin()) {
+      <div class="admin-toolbar">
+        <button class="add-tip-btn" (click)="showCreateForm.set(!showCreateForm())">
+          {{ ts.t('healthTips.addTip') }}
+        </button>
+      </div>
+    }
+
+    @if (showCreateForm()) {
+      <div class="tip-create-form">
+        <h4>{{ ts.t('healthTips.create.title') }}</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>{{ ts.t('healthTips.create.icon') }}</label>
+            <input type="text" [(ngModel)]="newForm.icon" maxlength="4" />
           </div>
-
-          <div class="slide-content">
-            <div class="slide-counter">
-              {{ currentIndex() + 1 }} / {{ tips.length }}
-            </div>
-            <h3 class="slide-topic">{{ getTopic(currentTip) }}</h3>
-
-            <div class="slide-body">
-              <div class="slide-practices">
-                <h4>
-                  <span>✅</span>
-                  {{ ts.t('healthTips.goodPractices') }}
-                </h4>
-                <p>{{ getContent(currentTip) }}</p>
-              </div>
-
-              <div class="slide-consequences">
-                <h4>
-                  <span>⚠️</span>
-                  {{ ts.t('healthTips.consequences') }}
-                </h4>
-                <p>{{ getConsequences(currentTip) }}</p>
-              </div>
-            </div>
+          <div class="form-group">
+            <label>{{ ts.t('healthTips.create.topic') }}</label>
+            <input type="text" [(ngModel)]="newForm.topic" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('healthTips.create.color1') }}</label>
+            <input type="color" [(ngModel)]="newForm.color1" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('healthTips.create.color2') }}</label>
+            <input type="color" [(ngModel)]="newForm.color2" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('healthTips.goodPractices') }}</label>
+            <textarea rows="4" [(ngModel)]="newForm.content"></textarea>
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('healthTips.consequences') }}</label>
+            <textarea rows="4" [(ngModel)]="newForm.consequences"></textarea>
           </div>
         </div>
-
-        <!-- Controls -->
-        <button class="carousel-btn prev" (click)="prev()" aria-label="Previous">&#8249;</button>
-        <button class="carousel-btn next" (click)="next()" aria-label="Next">&#8250;</button>
-      </div>
-
-      <!-- Dots -->
-      <div class="carousel-dots">
-        @for (tip of tips; track tip.id; let i = $index) {
-          <button
-            class="dot"
-            [class.active]="i === currentIndex()"
-            (click)="goTo(i)"
-            [attr.aria-label]="'Go to slide ' + (i + 1)"
-          ></button>
-        }
-      </div>
-
-      <!-- Topic thumbnails -->
-      <div class="topic-strip">
-        @for (tip of tips; track tip.id; let i = $index) {
-          <button
-            class="topic-thumb"
-            [class.active]="i === currentIndex()"
-            [style.background]="i === currentIndex() ? tip.gradient : '#f0fdfe'"
-            (click)="goTo(i)"
-          >
-            <span>{{ tip.icon }}</span>
-            <span class="thumb-label">{{ getTopic(tip) }}</span>
+        <div class="gradient-preview" [style.background]="'linear-gradient(135deg,' + newForm.color1 + ' 0%,' + newForm.color2 + ' 100%)'">
+          <span>{{ newForm.icon }}</span> {{ newForm.topic || ts.t('healthTips.create.preview') }}
+        </div>
+        <div class="form-actions">
+          <button class="publish-tip-btn" (click)="addTip()">
+            {{ ts.t('healthTips.create.submit') }}
           </button>
-        }
+          <button class="cancel-tip-btn" (click)="cancelCreate()">
+            {{ ts.t('healthTips.create.cancel') }}
+          </button>
+        </div>
       </div>
-    </div>
+    }
+
+    <!-- Carousel -->
+    @if (allTips().length === 0) {
+      <div class="tips-empty">
+        <span>🌿</span>
+        <p>{{ ts.t('healthTips.empty') }}</p>
+      </div>
+    } @else {
+      <div class="carousel-wrapper">
+        <div class="carousel-slide" [style.background]="currentTip!.gradient">
+          <!-- Slide content -->
+          <div class="slide-inner">
+            <div class="slide-icon-area">
+              <div class="slide-icon-bg">
+                <span class="slide-icon">{{ currentTip!.icon }}</span>
+              </div>
+            </div>
+
+            <div class="slide-content">
+              <div class="slide-counter">
+                {{ currentIndex() + 1 }} / {{ allTips().length }}
+              </div>
+              <h3 class="slide-topic">{{ getTopic(currentTip!) }}</h3>
+
+              <div class="slide-body">
+                <div class="slide-practices">
+                  <h4><span>✅</span> {{ ts.t('healthTips.goodPractices') }}</h4>
+                  <p>{{ getContent(currentTip!) }}</p>
+                </div>
+                <div class="slide-consequences">
+                  <h4><span>⚠️</span> {{ ts.t('healthTips.consequences') }}</h4>
+                  <p>{{ getConsequences(currentTip!) }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <button class="carousel-btn prev" (click)="prev()" aria-label="Previous">&#8249;</button>
+          <button class="carousel-btn next" (click)="next()" aria-label="Next">&#8250;</button>
+
+          <!-- Admin delete -->
+          @if (auth.isAdmin()) {
+            <button class="delete-tip-btn" (click)="removeTip(currentTip!)" [attr.aria-label]="ts.t('healthTips.delete')">
+              🗑️
+            </button>
+          }
+        </div>
+
+        <!-- Dots -->
+        <div class="carousel-dots">
+          @for (tip of allTips(); track tip.docId; let i = $index) {
+            <button
+              class="dot"
+              [class.active]="i === currentIndex()"
+              (click)="goTo(i)"
+              [attr.aria-label]="'Go to slide ' + (i + 1)"
+            ></button>
+          }
+        </div>
+
+        <!-- Topic thumbnails -->
+        <div class="topic-strip">
+          @for (tip of allTips(); track tip.docId; let i = $index) {
+            <button
+              class="topic-thumb"
+              [class.active]="i === currentIndex()"
+              [style.background]="i === currentIndex() ? tip.gradient : '#f0fdfe'"
+              (click)="goTo(i)"
+            >
+              <span>{{ tip.icon }}</span>
+              <span class="thumb-label">{{ getTopic(tip) }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    }
 
   </div>
 </section>

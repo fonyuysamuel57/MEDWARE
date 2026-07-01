@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
-import { SYMPTOMS_DATA } from '../data/symptoms.data';
+import { Injectable, inject } from '@angular/core';
+import { SymptomsService } from './symptoms.service';
 import { Symptom } from '../models/types';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
+  private readonly symptomsService = inject(SymptomsService);
+
   searchSymptoms(query: string, lang: 'en' | 'fr'): Symptom[] {
     if (!query || query.trim().length < 2) return [];
     const q = query.trim().toLowerCase();
-    return SYMPTOMS_DATA.filter(s => {
+    return this.symptomsService.symptoms().filter(s => {
       const name = lang === 'fr' ? s.symptomFr : s.symptom;
       return name.toLowerCase().includes(q);
     });

@@ -7,9 +7,54 @@
       <p class="section-subtitle">{{ ts.t('firstAid.subtitle') }}</p>
     </div>
 
+    @if (auth.isAdmin()) {
+      <div class="admin-toolbar">
+        <button class="add-fa-btn" (click)="showCreateForm.set(!showCreateForm())">
+          {{ ts.t('firstAid.addTip') }}
+        </button>
+      </div>
+    }
+
+    @if (showCreateForm()) {
+      <div class="fa-create-form">
+        <h4>{{ ts.t('firstAid.create.title') }}</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>{{ ts.t('firstAid.create.icon') }}</label>
+            <input type="text" [(ngModel)]="newForm.icon" maxlength="4" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('firstAid.create.itemTitle') }}</label>
+            <input type="text" [(ngModel)]="newForm.title" />
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('firstAid.create.steps') }}</label>
+            <textarea rows="6" [(ngModel)]="newForm.steps" [placeholder]="ts.t('firstAid.create.stepsPlaceholder')"></textarea>
+          </div>
+          <div class="form-group full">
+            <label>{{ ts.t('firstAid.warning') }} ({{ ts.t('firstAid.create.optional') }})</label>
+            <input type="text" [(ngModel)]="newForm.warning" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="publish-fa-btn" (click)="addFirstAidItem()">
+            {{ ts.t('firstAid.create.submit') }}
+          </button>
+          <button class="cancel-fa-btn" (click)="cancelCreate()">
+            {{ ts.t('firstAid.create.cancel') }}
+          </button>
+        </div>
+      </div>
+    }
+
     <div class="cards-grid">
-      @for (item of visibleItems; track item.id) {
+      @for (item of visibleItems; track item.docId) {
         <article class="fa-card">
+          @if (auth.isAdmin()) {
+            <button class="delete-fa-btn" (click)="removeFirstAidItem(item)" [attr.aria-label]="ts.t('firstAid.delete')">
+              🗑️
+            </button>
+          }
           <div class="fa-card-header">
             <span class="fa-icon">{{ item.icon }}</span>
             <h3 class="fa-title">{{ getTitle(item) }}</h3>
@@ -43,7 +88,7 @@
         }
       </button>
       <p class="count-label">
-        Showing {{ visibleItems.length }} of {{ allItems.length }} tips
+        Showing {{ visibleItems.length }} of {{ allItems().length }} tips
       </p>
     </div>
 

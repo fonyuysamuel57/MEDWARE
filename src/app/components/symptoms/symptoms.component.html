@@ -7,6 +7,46 @@
       <p class="section-subtitle">{{ ts.t('symptoms.subtitle') }}</p>
     </div>
 
+    @if (auth.isAdmin()) {
+      <div class="admin-toolbar">
+        <button class="add-symptom-btn" (click)="showCreateForm.set(!showCreateForm())">
+          {{ ts.t('symptoms.addSymptom') }}
+        </button>
+      </div>
+    }
+
+    @if (showCreateForm()) {
+      <div class="symptom-create-form">
+        <h4>{{ ts.t('symptoms.create.title') }}</h4>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>{{ ts.t('symptoms.create.name') }}</label>
+            <input type="text" [(ngModel)]="newForm.symptom" />
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('symptoms.create.severity') }}</label>
+            <select [(ngModel)]="newForm.severity">
+              <option value="mild">{{ ts.t('symptoms.severity.mild') }}</option>
+              <option value="moderate">{{ ts.t('symptoms.severity.moderate') }}</option>
+              <option value="severe">{{ ts.t('symptoms.severity.severe') }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>{{ ts.t('symptoms.create.diseases') }}</label>
+            <textarea rows="5" [(ngModel)]="newForm.diseases" [placeholder]="ts.t('symptoms.create.diseasesPlaceholder')"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="publish-symptom-btn" (click)="addSymptom()">
+            {{ ts.t('symptoms.create.submit') }}
+          </button>
+          <button class="cancel-symptom-btn" (click)="cancelCreate()">
+            {{ ts.t('symptoms.create.cancel') }}
+          </button>
+        </div>
+      </div>
+    }
+
     <!-- Local search -->
     <div class="symptom-search">
       <span class="search-icon">🔍</span>
@@ -32,13 +72,20 @@
 
     <!-- Cards -->
     <div class="symptoms-grid">
-      @for (s of visibleSymptoms; track s.id) {
+      @for (s of visibleSymptoms; track s.docId) {
         <article class="symptom-card" [class]="'sev-' + s.severity">
           <div class="symptom-card-top">
             <div class="symptom-name">{{ getSymptomName(s) }}</div>
-            <span class="severity-badge sev-{{ s.severity }}">
-              {{ getSeverityLabel(s.severity) }}
-            </span>
+            <div class="card-top-right">
+              <span class="severity-badge sev-{{ s.severity }}">
+                {{ getSeverityLabel(s.severity) }}
+              </span>
+              @if (auth.isAdmin()) {
+                <button class="delete-symptom-btn" (click)="removeSymptom(s)" [attr.aria-label]="ts.t('symptoms.delete')">
+                  🗑️
+                </button>
+              }
+            </div>
           </div>
 
           <div class="affiliated-label">{{ ts.t('symptoms.affiliatedWith') }}</div>

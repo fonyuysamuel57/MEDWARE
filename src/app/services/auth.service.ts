@@ -1,21 +1,25 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly _isAdmin = signal<boolean>(false);
-  private readonly ADMIN_PASSWORD = 'medware2025';
+  private readonly auth = inject(Auth);
+  private readonly ADMIN_EMAIL = 'fonyuysamuel57@gmail.com';
 
-  readonly isAdmin = this._isAdmin.asReadonly();
+  private readonly user = toSignal(authState(this.auth), { initialValue: null });
+  readonly isAdmin = computed(() => this.user() !== null);
 
-  login(password: string): boolean {
-    if (password === this.ADMIN_PASSWORD) {
-      this._isAdmin.set(true);
+  async login(password: string): Promise<boolean> {
+    try {
+      await signInWithEmailAndPassword(this.auth, this.ADMIN_EMAIL, password);
       return true;
+    } catch {
+      return false;
     }
-    return false;
   }
 
-  logout(): void {
-    this._isAdmin.set(false);
+  async logout(): Promise<void> {
+    await signOut(this.auth);
   }
 }

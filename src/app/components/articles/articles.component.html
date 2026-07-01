@@ -90,8 +90,13 @@
       <p class="no-articles">{{ ts.t('articles.noArticles') }}</p>
     } @else {
       <div class="articles-list">
-        @for (a of articles(); track a.id) {
+        @for (a of articles(); track a.docId) {
           <article class="article-card">
+            @if (auth.isAdmin()) {
+              <button class="delete-article-btn" (click)="removeArticle(a)" [attr.aria-label]="ts.t('articles.delete')">
+                🗑️
+              </button>
+            }
             @if (a.imageUrl) {
               <div class="article-img-wrap">
                 <img [src]="a.imageUrl" [alt]="getTitle(a)" loading="lazy" />
