@@ -2,6 +2,131 @@
   background: #f0fdfe;
 }
 
+/* Admin toolbar */
+.admin-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.add-tip-btn {
+  background: linear-gradient(135deg, #006064, #00ACC1);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Create form */
+.tip-create-form {
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
+  border: 1px solid #b2ebf2;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 14px rgba(0,96,100,0.08);
+}
+
+.tip-create-form h4 {
+  margin: 0 0 20px;
+  color: #006064;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.tip-create-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.tip-create-form .form-group { display: flex; flex-direction: column; gap: 6px; }
+.tip-create-form .form-group.full { grid-column: 1 / -1; }
+
+.tip-create-form .form-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #00695c;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.tip-create-form .form-group input,
+.tip-create-form .form-group textarea {
+  border: 1.5px solid #b2ebf2;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.tip-create-form .form-group input[type="color"] {
+  padding: 4px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.tip-create-form .form-group input:focus,
+.tip-create-form .form-group textarea:focus { border-color: #00BCD4; }
+
+.gradient-preview {
+  margin-top: 16px;
+  border-radius: 10px;
+  padding: 14px 20px;
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s;
+}
+
+.tip-create-form .form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.publish-tip-btn {
+  background: linear-gradient(135deg, #006064, #00ACC1);
+  color: white;
+  border: none;
+  padding: 11px 28px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cancel-tip-btn {
+  background: none;
+  border: 1px solid #e0e0e0;
+  color: #757575;
+  padding: 11px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Empty state */
+.tips-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #90a4ae;
+}
+
+.tips-empty span { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+.tips-empty p { font-size: 0.95rem; }
+
 .carousel-wrapper {
   max-width: 940px;
   margin: 0 auto;
@@ -132,6 +257,26 @@
 .carousel-btn:hover { background: rgba(255,255,255,0.35); }
 .carousel-btn.prev { left: 12px; }
 .carousel-btn.next { right: 12px; }
+
+.delete-tip-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #ffcdd2;
+  color: #e53935;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+}
+
+.delete-tip-btn:hover { background: #ffebee; }
 
 /* Dots */
 .carousel-dots {
