@@ -73,7 +73,12 @@
     <!-- Cards -->
     <div class="symptoms-grid">
       @for (s of visibleSymptoms; track s.docId) {
-        <article class="symptom-card" [class]="'sev-' + s.severity">
+        <article
+          class="symptom-card"
+          [class]="'sev-' + s.severity"
+          [class.highlighted]="highlightedId() === s.id"
+          [id]="'symptom-' + s.id"
+        >
           <div class="symptom-card-top">
             <div class="symptom-name">{{ getSymptomName(s) }}</div>
             <div class="card-top-right">

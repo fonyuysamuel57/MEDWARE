@@ -150,6 +150,15 @@
   line-height: 1.4;
 }
 
+.result-hint {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: #00838F;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
 .no-results {
   padding: 14px 16px;
   color: #90a4ae;

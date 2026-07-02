@@ -41,9 +41,10 @@
               <div class="no-results">{{ ts.t('symptoms.noResults') }}</div>
             } @else {
               @for (r of searchResults(); track r.id) {
-                <div class="result-item" role="option">
+                <div class="result-item" role="option" (click)="selectResult(r)">
                   <strong>{{ ts.getLang() === 'fr' ? r.symptomFr : r.symptom }}</strong>
                   <span class="result-diseases">{{ getDiseasesLabel(r) }}</span>
+                  <span class="result-hint">{{ ts.t('nav.search.goTo') }}</span>
                 </div>
               }
             }

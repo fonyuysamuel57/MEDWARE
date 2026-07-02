@@ -171,6 +171,16 @@
   box-shadow: 0 6px 22px rgba(0,96,100,0.13);
 }
 
+.symptom-card.highlighted {
+  animation: symptom-highlight 3.2s ease forwards;
+}
+
+@keyframes symptom-highlight {
+  0%   { box-shadow: 0 0 0 4px rgba(0,188,212,0.7), 0 2px 14px rgba(0,96,100,0.08); transform: translateY(-2px); }
+  40%  { box-shadow: 0 0 0 4px rgba(0,188,212,0.5), 0 6px 22px rgba(0,96,100,0.15); }
+  100% { box-shadow: 0 2px 14px rgba(0,96,100,0.08); transform: translateY(0); }
+}
+
 .symptom-card.sev-severe   { border-left-color: #e53935; }
 .symptom-card.sev-moderate { border-left-color: #fb8c00; }
 .symptom-card.sev-mild     { border-left-color: #43a047; }

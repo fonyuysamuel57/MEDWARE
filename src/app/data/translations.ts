@@ -9,6 +9,7 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.articles': 'Articles',
     'nav.misconceptions': 'Misconceptions',
     'nav.search.placeholder': 'Search symptoms...',
+    'nav.search.goTo': '↗ Go to symptom',
     'nav.translate': 'FR',
     'nav.translateTitle': 'Switch to French',
 
@@ -158,6 +159,7 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.articles': 'Articles',
     'nav.misconceptions': 'Idées Reçues',
     'nav.search.placeholder': 'Rechercher symptômes...',
+    'nav.search.goTo': '↗ Voir le symptôme',
     'nav.translate': 'EN',
     'nav.translateTitle': 'Passer en Anglais',
 
