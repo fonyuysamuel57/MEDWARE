@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
 import { AuthService } from '../../services/auth.service';
 import { SymptomsService } from '../../services/symptoms.service';
+import { SearchService } from '../../services/search.service';
 import { Symptom } from '../../models/types';
 
 interface NewSymptomForm {
@@ -27,14 +28,37 @@ export class SymptomsComponent {
   readonly ts = inject(TranslationService);
   readonly auth = inject(AuthService);
   private readonly symptomsService = inject(SymptomsService);
+  private readonly searchSvc = inject(SearchService);
 
   readonly allSymptoms = this.symptomsService.symptoms;
   readonly INITIAL_COUNT = 5;
   showAll = signal(false);
   searchQuery = signal('');
   showCreateForm = signal(false);
+  highlightedId = signal<number | null>(null);
+  private highlightTimer: ReturnType<typeof setTimeout> | null = null;
 
   newForm: NewSymptomForm = { ...EMPTY_FORM };
+
+  constructor() {
+    effect(() => {
+      const id = this.searchSvc.focusedSymptomId();
+      if (id === null) return;
+      this.showAll.set(true);
+      this.searchQuery.set('');
+      if (this.highlightTimer) clearTimeout(this.highlightTimer);
+      this.highlightedId.set(id);
+      setTimeout(() => {
+        const el = document.getElementById('symptom-' + id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 80);
+      this.highlightTimer = setTimeout(() => {
+        this.highlightedId.set(null);
+        this.searchSvc.clearFocus();
+        this.highlightTimer = null;
+      }, 3200);
+    }, { allowSignalWrites: true });
+  }
 
   get filteredSymptoms(): SymptomDoc[] {
     const q = this.searchQuery().toLowerCase().trim();

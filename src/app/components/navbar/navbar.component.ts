@@ -41,6 +41,14 @@ export class NavbarComponent {
     this.showResults.set(false);
   }
 
+  selectResult(symptom: Symptom): void {
+    this.searchSvc.focusSymptom(symptom.id);
+    this.clearSearch();
+    this.menuOpen.set(false);
+    const el = document.getElementById('symptoms');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   scrollTo(sectionId: string): void {
     const el = document.getElementById(sectionId);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
