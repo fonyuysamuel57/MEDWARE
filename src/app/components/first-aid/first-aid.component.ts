@@ -39,15 +39,15 @@ export class FirstAidComponent {
   }
 
   getTitle(item: FirstAidDoc): string {
-    return this.ts.getLang() === 'fr' ? item.titleFr : item.title;
+    return this.ts.field(item.title, item.titleFr);
   }
 
   getSteps(item: FirstAidDoc): string[] {
-    return this.ts.getLang() === 'fr' ? item.stepsFr : item.steps;
+    return this.ts.fieldList(item.steps, item.stepsFr);
   }
 
   getWarning(item: FirstAidDoc): string | undefined {
-    return this.ts.getLang() === 'fr' ? item.warningFr : item.warning;
+    return item.warning ? this.ts.field(item.warning, item.warningFr) : undefined;
   }
 
   toggleShowAll(): void {

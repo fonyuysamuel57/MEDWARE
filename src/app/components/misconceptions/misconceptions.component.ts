@@ -33,15 +33,15 @@ export class MisconceptionsComponent {
   newForm: NewMisconceptionForm = { icon: '❓', category: '', myth: '', truth: '' };
 
   getMyth(m: MisconceptionDoc): string {
-    return this.ts.getLang() === 'fr' ? m.mythFr : m.myth;
+    return this.ts.field(m.myth, m.mythFr);
   }
 
   getTruth(m: MisconceptionDoc): string {
-    return this.ts.getLang() === 'fr' ? m.truthFr : m.truth;
+    return this.ts.field(m.truth, m.truthFr);
   }
 
   getCategory(m: MisconceptionDoc): string {
-    return this.ts.getLang() === 'fr' ? m.categoryFr : m.category;
+    return this.ts.field(m.category, m.categoryFr);
   }
 
   async addMisconception(): Promise<void> {
