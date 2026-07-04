@@ -58,15 +58,15 @@ export class DiseasesComponent {
   }
 
   getName(d: DiseaseDoc): string {
-    return this.ts.getLang() === 'fr' ? d.nameFr : d.name;
+    return this.ts.field(d.name, d.nameFr);
   }
 
-  getField(d: DiseaseDoc, field: 'firstAid' | 'firstAidFr'): string {
-    return this.ts.getLang() === 'fr' ? d.firstAidFr : d.firstAid;
+  getFirstAid(d: DiseaseDoc): string {
+    return this.ts.field(d.firstAid, d.firstAidFr);
   }
 
   getList(en: string[], fr: string[]): string[] {
-    return this.ts.getLang() === 'fr' ? fr : en;
+    return this.ts.fieldList(en, fr);
   }
 
   toggleShowAll(): void {

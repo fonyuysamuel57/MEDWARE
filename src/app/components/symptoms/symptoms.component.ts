@@ -63,10 +63,9 @@ export class SymptomsComponent {
   get filteredSymptoms(): SymptomDoc[] {
     const q = this.searchQuery().toLowerCase().trim();
     if (!q) return this.allSymptoms();
-    return this.allSymptoms().filter(s => {
-      const name = this.ts.getLang() === 'fr' ? s.symptomFr : s.symptom;
-      return name.toLowerCase().includes(q);
-    });
+    return this.allSymptoms().filter(s =>
+      this.ts.field(s.symptom, s.symptomFr).toLowerCase().includes(q)
+    );
   }
 
   get visibleSymptoms(): SymptomDoc[] {
@@ -77,11 +76,11 @@ export class SymptomsComponent {
   }
 
   getSymptomName(s: SymptomDoc): string {
-    return this.ts.getLang() === 'fr' ? s.symptomFr : s.symptom;
+    return this.ts.field(s.symptom, s.symptomFr);
   }
 
   getDiseases(s: SymptomDoc): string[] {
-    return this.ts.getLang() === 'fr' ? s.diseasesFr : s.diseases;
+    return this.ts.fieldList(s.diseases, s.diseasesFr);
   }
 
   getSeverityLabel(severity: Symptom['severity']): string {

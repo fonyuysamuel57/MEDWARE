@@ -80,15 +80,15 @@ export class HealthTipsComponent implements OnInit, OnDestroy {
   }
 
   getTopic(tip: HealthTipDoc): string {
-    return this.ts.getLang() === 'fr' ? tip.topicFr : tip.topic;
+    return this.ts.field(tip.topic, tip.topicFr);
   }
 
   getContent(tip: HealthTipDoc): string {
-    return this.ts.getLang() === 'fr' ? tip.contentFr : tip.content;
+    return this.ts.field(tip.content, tip.contentFr);
   }
 
   getConsequences(tip: HealthTipDoc): string {
-    return this.ts.getLang() === 'fr' ? tip.consequencesFr : tip.consequences;
+    return this.ts.field(tip.consequences, tip.consequencesFr);
   }
 
   async addTip(): Promise<void> {

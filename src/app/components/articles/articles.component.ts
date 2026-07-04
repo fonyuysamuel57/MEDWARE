@@ -40,11 +40,11 @@ export class ArticlesComponent {
   };
 
   getTitle(a: ArticleDoc): string {
-    return this.ts.getLang() === 'fr' ? a.titleFr : a.title;
+    return this.ts.field(a.title, a.titleFr);
   }
 
   getContent(a: ArticleDoc): string {
-    return this.ts.getLang() === 'fr' ? a.contentFr : a.content;
+    return this.ts.field(a.content, a.contentFr);
   }
 
   toggleExpand(id: number): void {
@@ -93,7 +93,7 @@ export class ArticlesComponent {
 
   formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleDateString(
-      this.ts.getLang() === 'fr' ? 'fr-FR' : 'en-US',
+      this.ts.locale(),
       { year: 'numeric', month: 'long', day: 'numeric' }
     );
   }
